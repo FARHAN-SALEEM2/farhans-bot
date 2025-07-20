@@ -40,12 +40,14 @@ def send():
 @app.route("/incoming", methods=['POST'])
 def incoming():
     incoming_msg = request.values.get('Body', '').lower()
+    print(f"📩 Received: {incoming_msg}")  # 👈 Added this line for debug
+
     response = MessagingResponse()
     msg = response.message()
 
     # FAQ / Knowledge base
     faqs = {
-        "who is farhan saleem" : "founder of me ! aperson who blindly believes in himself ",
+        "who is farhan saleem": "founder of me ! aperson who blindly believes in himself ",
         "hours": "Our working hours are 9 AM to 6 PM, Monday to Friday.",
         "price": "Prices start from $10. For details, visit our website.",
         "shipping": "We offer free shipping on orders above $50.",
