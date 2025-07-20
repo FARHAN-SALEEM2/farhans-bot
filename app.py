@@ -7,9 +7,9 @@ from dotenv import load_dotenv
 app = Flask(__name__)
 load_dotenv()
 
-account_sid = os.environ["TWILIO_ACCOUNT_SID"]
-auth_token = os.environ["TWILIO_AUTH_TOKEN"]
-from_number = os.environ["TWILIO_WHATSAPP_NUMBER"]
+account_sid = os.environ.get("TWILIO_ACCOUNT_SID")
+auth_token = os.environ.get("TWILIO_AUTH_TOKEN")
+from_number = os.environ.get("TWILIO_WHATSAPP_NUMBER")
 
 client = Client(account_sid, auth_token)
 
@@ -40,14 +40,13 @@ def send():
 @app.route("/incoming", methods=['POST'])
 def incoming():
     incoming_msg = request.values.get('Body', '').lower()
-    print(f"📩 Received: {incoming_msg}")  # 👈 Added this line for debug
+    print("📩 Incoming Message:", incoming_msg)
 
     response = MessagingResponse()
     msg = response.message()
 
-    # FAQ / Knowledge base
     faqs = {
-        "who is farhan saleem": "founder of me ! aperson who blindly believes in himself ",
+        "who is farhan saleem": "Founder of me! A person who blindly believes in himself.",
         "hours": "Our working hours are 9 AM to 6 PM, Monday to Friday.",
         "price": "Prices start from $10. For details, visit our website.",
         "shipping": "We offer free shipping on orders above $50.",
@@ -56,7 +55,6 @@ def incoming():
         "farhan loves who": "Farhan loves a girl named Minahil Akhter. She's from the Computer Science department at UOL"
     }
 
-    # Keyword matching
     for keyword, answer in faqs.items():
         if keyword in incoming_msg:
             msg.body(answer)
